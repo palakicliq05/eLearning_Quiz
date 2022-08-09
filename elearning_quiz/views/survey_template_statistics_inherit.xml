@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <template id="survey_temp_statistics_inherit" inherit_id="survey.question_result_text">
+
+            <xpath expr="//thead/tr/th[2]" position="inside">
+                <th>User Attachment</th>
+            </xpath>
+            <xpath expr="//tbody/t/tr/td[2]" position="inside">
+                <td>
+                    <t t-if="question.question_type == 'text_box'">
+                        <t t-set="answerId" t-value="input_line.id"/>
+                        <a t-att-href="input_line.get_download_file_url()" ><span t-field="input_line.file_name"/></a>
+                    </t>
+                </td>
+            </xpath>
+
+        </template>
+
+        
+
+    </data>
+
+</odoo>

@@ -1,0 +1,20 @@
+<odoo>
+    <record id="elearning_survey_view_inherit" model="ir.ui.view">
+        <field name="name">"elearning.survey.view.inherit</field>
+        <field name="model">survey.question</field>
+        <field name="inherit_id" ref="survey.survey_question_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='answers']/div[@class='row']" position="inside">
+                <div class="col-6" attrs="{'invisible': [('question_type', 'not in', ['text_box','char_box'])]}">
+                    <field name="upload_attachment" nolabel="1"/>
+                        <label for="upload_attachment"/>
+                    <br/>
+                    <field name="upload_attachment_mandatory" nolabel="1"/>
+                        <label for="upload_attachment_mandatory"/>
+                    <br/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

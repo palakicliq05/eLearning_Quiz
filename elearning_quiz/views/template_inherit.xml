@@ -1,0 +1,18 @@
+<odoo>
+    <data>
+        <template id="question_text_box_inherit" inherit_id="survey.question_text_box" name="Question: free text box">
+            <xpath expr="//div[@class='o_survey_comment_container p-0']" position="inside">
+                <label for="myfile" t-att-value="answer_lines[0].file_name if answer_lines else None">Select a file:</label>
+                <t t-set="qid" t-value="question.id"/>
+                <t t-set="isdisable" t-value="question.upload_attachment==false"/>
+                <t t-set="isattachmentrequire" t-value="question.upload_attachment_mandatory"/>
+                <t t-if="answer_lines" t-set="aid" t-value="answer_lines[0].id"/>
+                <t t-else="" t-set="aid" t-value=""/>
+                <input type="file" t-att-name="'myfile' + str(qid)" t-att-data-question-type="question.question_type" t-att-disabled="isdisable" t-att-data-validation-attachement-require="isattachmentrequire" t-att-value="answer_lines[0].file_name if answer_lines else None" >
+                <a t-if="answer_lines" t-att-href="'/survey/answer/attachment/download/' + str(aid)" ><span t-field="answer_lines[0].file_name"/></a>
+                </input>    
+            </xpath>
+            
+        </template>
+    </data>
+</odoo>
