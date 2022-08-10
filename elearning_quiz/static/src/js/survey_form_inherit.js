@@ -585,6 +585,10 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                                 errors[questionId] = validationErrorMsg;
                             }
                         }
+                        var attachmentRequire = $input.data('validationAttachementRequire');
+                        if(attachmentRequire && !$input.val()) {
+                            errors[questionId] = constrErrorMsg;
+                        }
                         break;
                     case 'text_box':
                         if (questionRequired && !$input.val()) {
@@ -701,6 +705,12 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                         }
                         break;   
                     case 'char_box':
+                        if(!this.name.includes("myfile")) {
+                            console.log("befire call _preparetextboxsubmit")
+                            params[this.name] = self._preparetextboxsubmit(this.name, this.value, formData);
+                            console.log("befire call _preparetextboxsubmit, ", params[this.name])
+                        }
+                        break;
                     case 'numerical_box':
                         params[this.name] = this.value;
                         break;

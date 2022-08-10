@@ -13,6 +13,10 @@
                         <t t-set="answerId" t-value="input_line.id"/>
                         <a t-att-href="input_line.get_download_file_url()" ><span t-field="input_line.file_name"/></a>
                     </t>
+                    <t t-if="question.question_type == 'char_box'">
+                        <t t-set="answerId" t-value="input_line.id"/>
+                        <a t-att-href="input_line.get_download_file_url()" ><span t-field="input_line.file_name"/></a>
+                    </t>
                 </td>
             </xpath>
 
