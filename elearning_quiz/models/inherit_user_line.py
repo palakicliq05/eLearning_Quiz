@@ -18,10 +18,13 @@ class SurveyUserInputmodify(models.Model):
                 'skipped': False,
                 'answer_type': question.question_type,
             }
-            vals['value_text_box'] = answer
-            vals['value_char_box'] = answer
+            if question.question_type in ['text_box'] :
+                vals['value_text_box'] = answer
+            if question.question_type in ['char_box']:
+                vals['value_char_box'] = answer
             vals['file_content'] = filecontent
             vals['file_name'] = filename
+            print("===========vals['value_text_box']============",vals)
             if old_answers:
                 old_answers.write(vals)
             else:

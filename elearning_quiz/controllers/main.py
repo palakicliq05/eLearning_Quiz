@@ -57,6 +57,7 @@ class SurveyInherit(Survey):
                 if question.question_type in ['text_box'] or ['char_box']:
                     if question.upload_attachment :
                         text_question_json = json.loads(json.dumps(answer))
+                        print("----------------text_question_json----------",text_question_json)
                         textanswer = text_question_json[str(question.id)]
                         filename = text_question_json["filename"+str(question.id)]
                         filecontent = text_question_json["myfile"+str(question.id)]

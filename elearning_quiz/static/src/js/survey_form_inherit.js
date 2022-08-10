@@ -584,10 +584,10 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                             if (lengthMin && (lengthMin > length || length > lengthMax)) {
                                 errors[questionId] = validationErrorMsg;
                             }
-                        }
                         var attachmentRequire = $input.data('validationAttachementRequire');
                         if(attachmentRequire && !$input.val()) {
                             errors[questionId] = constrErrorMsg;
+                            }
                         }
                         break;
                     case 'text_box':
