@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import json
 from odoo.addons.survey.controllers.main import Survey
-from odoo.http import request, content_disposition, Response
+from odoo.http import request, content_disposition
 import base64
 
 class SurveyInherit(Survey):
@@ -54,7 +54,8 @@ class SurveyInherit(Survey):
             answer, comment = self._extract_comment_from_answers(question, post.get(str(question.id)))
             errors.update(question.validate_question(answer, comment))
             if not errors.get(question.id):
-                if question.question_type in ['text_box'] or ['char_box']:
+                print("--------------answer-------answer---------",answer)
+                if question.question_type in ['text_box','char_box']:
                     if question.upload_attachment :
                         text_question_json = json.loads(json.dumps(answer))
                         print("----------------text_question_json----------",text_question_json)
@@ -67,7 +68,7 @@ class SurveyInherit(Survey):
                         textanswer = text_question_json[str(question.id)]
                         answer_sudo.save_lines(question, textanswer,comment)
 
-                else:    
+                else: 
                     answer_sudo.save_lines(question, answer,comment)
             
 

@@ -7,9 +7,9 @@ class SurveyQuestionInherit(models.Model):
     def _validate_char_box(self, answer):
         # Email format validation
         # all the strings of the form "<something>@<anything>.<extension>" will be accepted
-        print("$$$$$$$$$$$$$$$$$$ answer: ", answer)
-        print("$$$$$$$$$$$$$$$$$$ self id: ", self.id)
-        print("$$$$$$$$$$$$$$$$$$ answerid: ", answer[str(self.id)])
+        # print("$$$$$$$$$$$$$$$$$$ answer: ", answer)
+        # print("$$$$$$$$$$$$$$$$$$ self id: ", self.id)
+        # print("$$$$$$$$$$$$$$$$$$ answerid: ", answer[str(self.id)])
         if self.validation_email:
             if not tools.email_normalize(answer[str(self.id)]):
                 return {self.id: _('This answer must be an email address')}
