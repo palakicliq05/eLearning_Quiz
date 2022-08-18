@@ -17,6 +17,8 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
             'change .o_survey_form_choice_item': '_onChangeChoiceItem',
             'click .o_survey_matrix_btn': '_onMatrixBtnClick',
             'click button[type="submit"]': '_onSubmit',
+            'change input[type="file"]' : '_uploadFile',
+
         },
         custom_events: {
             'breadcrumb_click': '_onBreadcrumbClick',
@@ -402,24 +404,30 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                 this.readonly = true;
             }
     
-            if (this.options.isStartScreen) {
-                var submitPromise = self._rpc({
-                    route: _.str.sprintf('%s/%s/%s', route, self.options.surveyToken, self.options.answerToken),
-                    params: params,
-                });
+            // if (this.options.isStartScreen) {
+            //     var submitPromise = self._rpc({
+            //         route: _.str.sprintf('%s/%s/%s', route, self.options.surveyToken, self.options.answerToken),
+            //         params: params,
+            //     });
     
-                this._nextScreen(submitPromise, options);
-            } else {
-                setTimeout(() => {
-                    var submitPromise = self._rpc({
-                        route: _.str.sprintf('%s/%s/%s', route, self.options.surveyToken, self.options.answerToken),
-                        params: params,
-                    });
+            //     this._nextScreen(submitPromise, options);
+            // } else {
+            //     setTimeout(() => {
+            //         var submitPromise = self._rpc({
+            //             route: _.str.sprintf('%s/%s/%s', route, self.options.surveyToken, self.options.answerToken),
+            //             params: params,
+            //         });
         
-                    this._nextScreen(submitPromise, options);
-                }, 5000);
+            //         this._nextScreen(submitPromise, options);
+            //     }, 5000);
             
-            }
+            // }
+            var submitPromise = self._rpc({
+                route: _.str.sprintf('%s/%s/%s', route, self.options.surveyToken, self.options.answerToken),
+                params: params,
+            });
+
+            this._nextScreen(submitPromise, options);
         },
     
         /**
@@ -526,7 +534,32 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                 this._scrollToError($errorTarget);
             }
         },
-    
+
+        _uploadFile: function (event){
+            console.log("====_uploadFile called===", event.target.name);
+            // var $target = $(event.currentTarget);
+            // console.log("====target called===", $target);
+            // var $input = $target.find('input');
+            // console.log("====input called===", $input);
+            if(event.target.name) {
+                document.getElementsByName("hname" + event.target.name)[0].value = event.target.files[0].name;
+                var reader = new FileReader();
+                console.log("----------Reader----------------");
+                reader.onload = function() {
+                    console.log("====value===", btoa(reader.result));
+                    document.getElementsByName("h" + event.target.name)[0].value = btoa(reader.result);
+                    
+                };
+                console.log("===============hname + event.target.name","hname" + event.target.name)
+                console.log("$input.val()====", event.target.files[0]);
+                // console.log("$input.name====", $input.prop('name'));
+                // console.log("$input.value====", document.getElementsByName(event.target.name).files[0]);
+                reader.readAsBinaryString(event.target.files[0]);
+            }
+        },
+
+
+
         // VALIDATION TOOLS
         // -------------------------------------------------------------------------
         /**
@@ -590,7 +623,7 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
                             }
                         }
                         break;
-                    case 'text_box':
+                    case 'text_box':                        
                         if (questionRequired && !$input.val()) {
                             errors[questionId] = constrErrorMsg;
                         }
@@ -743,19 +776,39 @@ odoo.define('elearning_quiz.survey_form_inherit', function (require) {
             return params;
         },
     
+        // _preparetextboxsubmit:function(key,value,formData){
+        //     var subparams = {};
+        //     subparams[key] = value;
+        //     formData.forEach(function (formvalue, formkey) {
+        //         {
+        //              if(formkey === 'myfile'+key) {
+        //                 var reader = new FileReader();
+        //                 subparams["filename"+key] = formvalue.name;
+        //                 reader.onload = function() {
+        //                     subparams[formkey] = btoa(reader.result);
+        //                 };
+        //                 reader.readAsBinaryString(formvalue);
+        //                 return;
+        //             }
+        //         }        
+        //     });
+        //     return subparams;  
+        // },
+
         _preparetextboxsubmit:function(key,value,formData){
             var subparams = {};
             subparams[key] = value;
             formData.forEach(function (formvalue, formkey) {
                 {
-                     if(formkey === 'myfile'+key) {
-                        var reader = new FileReader();
-                        subparams["filename"+key] = formvalue.name;
-                        reader.onload = function() {
-                            subparams[formkey] = btoa(reader.result);
-                        };
-                        reader.readAsBinaryString(formvalue);
-                        return;
+                    if(formkey === 'hmyfile'+key) {
+                        subparams["myfile"+key] = formvalue;
+                        console.log("==================================hmyfile",subparams["myfile"+key])
+                    }
+
+                    if(formkey === 'hnamemyfile'+key) {
+                        subparams["filename"+key] = formvalue;
+                        console.log("==================================hnamemyfile",subparams["filename"+key] )
+                        
                     }
                 }        
             });

@@ -8,9 +8,10 @@
                 <t t-set="isattachmentrequire" t-value="question.upload_attachment_mandatory"/>
                 <t t-if="answer_lines" t-set="aid" t-value="answer_lines[0].id"/>
                 <t t-else="" t-set="aid" t-value=""/>
-                <input type="file" t-att-name="'myfile' + str(qid)" t-att-data-question-type="question.question_type" t-att-disabled="isdisable" t-att-data-validation-attachement-require="isattachmentrequire" t-att-value="answer_lines[0].file_name if answer_lines else None" >
+                <input type="file" t-att-name="'myfile' + str(qid)" t-att-data-question-type="question.question_type" t-att-disabled="isdisable" t-att-value="answer_lines[0].file_name if answer_lines else None" />
                 <a t-if="answer_lines" t-att-href="'/survey/answer/attachment/download/' + str(aid)" ><span t-field="answer_lines[0].file_name"/></a>
-                </input>    
+                <input type="hidden" t-att-name="'hmyfile' + str(qid)"  t-att-data-question-type="question.question_type" t-att-data-validation-attachement-require="isattachmentrequire" t-att-value="answer_lines[0].file_content if answer_lines else None"/> 
+                <input type="hidden" t-att-name="'hnamemyfile' + str(qid)"  t-att-data-question-type="question.question_type" t-att-value="answer_lines[0].file_name if answer_lines else None"/>     
             </xpath>
             
         </template>
@@ -23,9 +24,10 @@
                 <t t-set="isattachmentrequire" t-value="question.upload_attachment_mandatory"/>
                 <t t-if="answer_lines" t-set="aid" t-value="answer_lines[0].id"/>
                 <t t-else="" t-set="aid" t-value=""/>
-                <input type="file" t-att-name="'myfile' + str(qid)" t-att-data-question-type="question.question_type" t-att-disabled="isdisable" t-att-data-validation-attachement-require="isattachmentrequire" t-att-value="answer_lines[0].file_name if answer_lines else None" >
-                <a t-if="answer_lines" t-att-href="'/survey/answer/attachment/download/' + str(aid)" ><span t-field="answer_lines[0].file_name"/></a>
-                </input>    
+                <input type="file" t-att-name="'myfile' + str(qid)" t-att-data-question-type="question.question_type" t-att-disabled="isdisable" t-att-value="answer_lines[0].file_name if answer_lines else None" />
+                <a t-if="answer_lines" t-att-href="'/survey/answer/attachment/download/' + str(aid)" ><span t-field="answer_lines[0].file_name"/></a> 
+                <input type="hidden" t-att-name="'hmyfile' + str(qid)"  t-att-data-question-type="question.question_type" t-att-data-validation-attachement-require="isattachmentrequire" t-att-value="answer_lines[0].file_content if answer_lines else None"/> 
+                <input type="hidden" t-att-name="'hnamemyfile' + str(qid)"  t-att-data-question-type="question.question_type" t-att-value="answer_lines[0].file_name if answer_lines else None"/>       
             </xpath>
             
         </template>
